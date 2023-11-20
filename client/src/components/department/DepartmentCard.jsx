@@ -1,3 +1,6 @@
+import React, { useState, useEffect } from "react";
+import PersonDataStorage from "../../artifacts/contracts/PersonDataStorage.sol/PersonalDataStorage.json";
+import { ethers } from "ethers"
 
 
 const products = [
@@ -50,8 +53,53 @@ const products = [
   
   // More products...
 ]
-
 export default function DepartmentList() {
+  const [persondata, setPersondata] = useState(null);
+  const [contract, setContract] = useState(null);
+  const [provider, setProvider] = useState(null);
+
+  useEffect(() => {
+    const loadProvider = async () => {
+
+        let contractAddress = "0x7a2088a1bFc9d81c55368AE168C2C02570cB814F";
+        const url = "http://localhost:8545";
+        console.log("Contract Address:", contractAddress);
+        console.log("JSON-RPC URL:", url);
+  
+        const provider = new ethers.JsonRpcProvider(url);
+
+        console.log("Provider:", provider);
+  
+        const contract = new ethers.Contract(
+          contractAddress,
+          PersonDataStorage.abi,
+          provider
+        );
+        console.log("Contract:", contract);
+  
+        setContract(contract);
+        setProvider(provider);
+  
+        console.log("Contract Address (after setting state):", contract.getAddress());
+        console.log("////////////////////////////////////////////////////////////////")
+        // Fetch data from the contract or perform any other desired actions.
+        // You can log contract functions, variables, etc. here.
+  
+   
+    };
+  
+    loadProvider();
+  }, []);
+  
+  useEffect(()=>{
+    const persondata = async() => {
+      const pdata = await contract.getPersonalData();
+
+      console.log("Personal data", pdata);
+    contract && persondata();
+    }
+  },[contract])
+
   return (
 <div className="bg-slate-300">
   <div className="mx-auto max-w-4xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
@@ -59,7 +107,7 @@ export default function DepartmentList() {
 
     <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
       {products.map((product, index) => (
-        <div
+        <div    
           key={product.id}
           className={`group relative rounded-lg bg-white p-6 border border-white shadow-md lg:col-span-2`}
         >

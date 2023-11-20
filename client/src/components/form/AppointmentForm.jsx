@@ -1,17 +1,319 @@
-import { PhotoIcon, UserCircleIcon } from '@heroicons/react/24/solid'
+import React, { useState, useEffect } from "react";
+import PersonDataStorage from "../../artifacts/contracts/PersonDataStorage.sol/PersonalDataStorage.json";
+import { ethers } from "ethers";
+
+// Utility function to load the provider
+const loadProvider = async () => {
+  const url = "http://localhost:8545";
+  const provider = new ethers.providers.JsonRpcProvider(url);
+  return provider;
+};
 
 export default function AppointmentForm() {
+  const [contract, setContract] = useState(null);
+  const [provider, setProvider] = useState(null);
+
+  const [name, setName] = useState("");
+  const [fatherName, setFatherName] = useState("");
+  const [mobileNumber, setMobileNumber] = useState("");
+  const [height, setHeight] = useState("");
+  const [weight, setWeight] = useState("");
+  const [age, setAge] = useState("");
+  const [gender, setGender] = useState("");
+  const [allUserData, setAllUserData] = useState(null);
+
+  const contractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
+
+  useEffect(() => {
+    const initialize = async () => {
+      const provider = await loadProvider();
+      const signer = await provider.getSigner();
+      const contract = new ethers.Contract(
+        contractAddress,
+        PersonDataStorage.abi,
+        provider
+      );
+
+      setContract(contract);
+      setProvider(provider);
+
+      const blockNumber = await provider.getBlockNumber();
+      console.log("Block Number:", blockNumber);
+    };
+
+    initialize();
+  }, []); // Run only once on component mount
+  const fetchData = async () => {
+    try {
+      if (contract) {
+        const [
+          usersArray,
+          names,
+          ages,
+          mobileNumbers,
+          fathersNames,
+          heights,
+          weights,
+          genders,
+        ] = await contract.getAllUserPersonalData();
+
+        console.log("Users Array:", usersArray);
+        console.log("Names:", names);
+        console.log("Ages:", ages);
+        console.log("Mobile Numbers:", mobileNumbers);
+        console.log("Fathers Names:", fathersNames);
+        console.log("Heights:", heights);
+        console.log("Weights:", weights);
+        console.log("Genders:", genders);
+      }
+    } catch (error) {
+      console.error("Error fetching personal data:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, [contract]);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!contract) {
+      alert("Contract is not loaded.");
+      return;
+    }
+
+    try {
+      // if (
+      //   isNaN(age) ||
+      //   isNaN(mobileNumber) ||
+      //   isNaN(weight) ||
+      //   isNaN(height) ||
+      //   !/^\d+$/.test(age) ||
+      //   !/^\d+$/.test(mobileNumber) ||
+      //   !/^\d+$/.test(weight) ||
+      //   !/^\d+$/.test(height)
+      // ) {
+      //   alert("Invalid input. Please enter valid numbers.");
+      //   return;
+      // }
+
+      const loadedProvider = await loadProvider();
+      const contractWithSigner = contract.connect(loadedProvider.getSigner());
+      const transaction = await contractWithSigner.setPersonalData(
+        name,
+        age,
+        fatherName,
+        mobileNumber,
+        weight,
+        gender,
+        height
+      );
+      const receipt = await transaction.wait();
+
+      console.log("Transaction receipt:", receipt);
+
+      if (receipt.status === 1) {
+        alert("Data sent to the local blockchain!");
+      } else {
+        alert("Transaction failed!");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      alert("Error sending data to the local blockchain");
+    }
+  };
+
   return (
-    <form>
-      <div className="space-y-12 px-20 py-20">
+    <form onSubmit={handleSubmit}>
+      <div className="space-y-12 px-64 py-20">
         <div className="border-b border-gray-900/10 pb-12">
-          <h2 className="text-base font-semibold leading-7 text-gray-900">Profile</h2>
+          <h2 className="text-base font-semibold leading-7 text-gray-900">
+            Profile
+          </h2>
           <p className="mt-1 text-sm leading-6 text-gray-600">
-            This information will be displayed publicly so be careful what you share.
+            This information will be displayed publicly so be careful what you
+            share.
           </p>
 
           <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
             <div className="sm:col-span-4">
+              <label
+                htmlFor="name"
+                className="block text-sm font-medium leading-6 text-gray-900"
+              >
+                name
+              </label>
+              <div className="mt-2">
+                <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
+                  <input
+                    type="text"
+                    name="name"
+                    id="name"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    autoComplete="name"
+                    className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                    placeholder="janesmith"
+                  />
+                </div>
+              </div>
+            </div>
+            {/* <div className="sm:col-span-4">
+              <label htmlFor="username" className="block text-sm font-medium leading-6 text-gray-900">
+                Username
+              </label>
+              <div className="mt-2">
+                <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
+                  <input
+                    type="text"
+                    name="username"
+                    id="username"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    autoComplete="username"
+                    className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                    placeholder="janesmith"
+                  />
+                </div>
+              </div>
+            </div> */}
+            <div className="sm:col-span-4">
+              <label
+                htmlFor="fathername"
+                className="block text-sm font-medium leading-6 text-gray-900"
+              >
+                Father's/ Husband Name
+              </label>
+              <div className="mt-2">
+                <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
+                  <input
+                    type="text"
+                    name="fatherName"
+                    id="fatherName"
+                    value={fatherName}
+                    onChange={(e) => setFatherName(e.target.value)}
+                    autoComplete="fathername"
+                    className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                    placeholder="father's name"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="sm:col-span-4">
+              <label
+                htmlFor="username"
+                className="block text-sm font-medium leading-6 text-gray-900"
+              >
+                mibile number
+              </label>
+              <div className="mt-2">
+                <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
+                  <input
+                    type="number"
+                    name="mobileNumber"
+                    id="mobileNumber"
+                    value={mobileNumber}
+                    onChange={(e) => setMobileNumber(e.target.value)}
+                    autoComplete="mobileNumber"
+                    className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                    placeholder="Mobile Number"
+                  />
+                </div>
+              </div>
+            </div>
+            <div className="sm:col-span-4">
+              <label
+                htmlFor="height"
+                className="block text-sm font-medium leading-6 text-gray-900"
+              >
+                height
+              </label>
+              <div className="mt-2">
+                <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
+                  <input
+                    type="number"
+                    name="height"
+                    id="height"
+                    value={height}
+                    onChange={(e) => setHeight(e.target.value)}
+                    autoComplete="height"
+                    className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                    placeholder="height"
+                  />
+                </div>
+              </div>
+            </div>
+            <div className="sm:col-span-4">
+              <label
+                htmlFor="weight"
+                className="block text-sm font-medium leading-6 text-gray-900"
+              >
+                weight
+              </label>
+              <div className="mt-2">
+                <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
+                  <input
+                    type="number"
+                    name="weight"
+                    id="weight"
+                    value={weight}
+                    onChange={(e) => setWeight(e.target.value)}
+                    autoComplete="username"
+                    className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                    placeholder="weight"
+                  />
+                </div>
+              </div>
+            </div>
+            <div className="sm:col-span-4">
+              <label
+                htmlFor="age"
+                className="block text-sm font-medium leading-6 text-gray-900"
+              >
+                age
+              </label>
+              <div className="mt-2">
+                <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
+                  <input
+                    type="number"
+                    name="age"
+                    id="age"
+                    value={age}
+                    onChange={(e) => setAge(e.target.value)}
+                    autoComplete="age"
+                    className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                    placeholder="age"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="sm:col-span-4">
+              <label
+                htmlFor="gender"
+                className="block text-sm font-medium leading-6 text-gray-900"
+              >
+                gender
+              </label>
+              <div className="mt-2">
+                <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
+                  <input
+                    type="text"
+                    name="gender"
+                    id="gender"
+                    value={gender}
+                    onChange={(e) => setGender(e.target.value)}
+                    autoComplete="gender"
+                    className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                    placeholder="gender"
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* <div className="sm:col-span-4">
               <label htmlFor="username" className="block text-sm font-medium leading-6 text-gray-900">
                 Username
               </label>
@@ -28,11 +330,12 @@ export default function AppointmentForm() {
                   />
                 </div>
               </div>
-            </div>
+            </div> */}
 
-            <div className="col-span-full">
+            {/*           
+            <div className="col-span-4">
               <label htmlFor="about" className="block text-sm font-medium leading-6 text-gray-900">
-                About
+                Address
               </label>
               <div className="mt-2">
                 <textarea
@@ -44,8 +347,8 @@ export default function AppointmentForm() {
                 />
               </div>
               <p className="mt-3 text-sm leading-6 text-gray-600">Write a few sentences about yourself.</p>
-            </div>
-
+            </div> */}
+            {/* 
             <div className="col-span-full">
               <label htmlFor="photo" className="block text-sm font-medium leading-6 text-gray-900">
                 Photo
@@ -59,8 +362,8 @@ export default function AppointmentForm() {
                   Change
                 </button>
               </div>
-            </div>
-
+            </div> */}
+            {/* 
             <div className="col-span-full">
               <label htmlFor="cover-photo" className="block text-sm font-medium leading-6 text-gray-900">
                 Cover photo
@@ -81,10 +384,10 @@ export default function AppointmentForm() {
                   <p className="text-xs leading-5 text-gray-600">PNG, JPG, GIF up to 10MB</p>
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
-
+        {/* 
         <div className="border-b border-gray-900/10 pb-12">
           <h2 className="text-base font-semibold leading-7 text-gray-900">Personal Information</h2>
           <p className="mt-1 text-sm leading-6 text-gray-600">Use a permanent address where you can receive mail.</p>
@@ -213,9 +516,9 @@ export default function AppointmentForm() {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
 
-        <div className="border-b border-gray-900/10 pb-12">
+        {/* <div className="border-b border-gray-900/10 pb-12">
           <h2 className="text-base font-semibold leading-7 text-gray-900">Notifications</h2>
           <p className="mt-1 text-sm leading-6 text-gray-600">
             We'll always let you know about important changes, but you pick what else you want to hear about.
@@ -315,20 +618,23 @@ export default function AppointmentForm() {
               </div>
             </fieldset>
           </div>
-        </div>
+        </div> */}
       </div>
 
-      <div className="mt-6 flex items-center justify-end gap-x-6">
-        <button type="button" className="text-sm font-semibold leading-6 text-gray-900">
+      <div className="mt-6 flex items-center px-64 mb-44 justify-end gap-x-6">
+        <button
+          type="button"
+          className="text-sm font-semibold leading-6 text-gray-900"
+        >
           Cancel
         </button>
         <button
           type="submit"
           className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
         >
-          Save
+          Proceed
         </button>
       </div>
     </form>
-  )
+  );
 }

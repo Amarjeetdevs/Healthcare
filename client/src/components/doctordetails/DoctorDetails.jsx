@@ -10,8 +10,7 @@ function DoctorPopup({ people, onClose }) {
   const navigate = useNavigate();
 
   const openform = () => {
-    // Use navigate to navigate to the desired route when "Book appointment" is clicked
-    navigate("/appointmentForm"); // Replace "/appointmentForm" with the actual route
+    navigate("/appointmentForm"); 
   };
     return (
         <ReactModal
@@ -24,7 +23,7 @@ function DoctorPopup({ people, onClose }) {
         <div className="bg-white border border-gray-300 rounded-lg p-12 w-2/3 mx-auto my-0 flex items-center">
           <div className="w-1/2 text-center relative">
        
-            <div className="rounded-full h-32 w-32 overflow-hidden relative">
+            <div   className="rounded-full h-32 w-32 overflow-hidden relative">
               <img
                 src={people.imageUrl}
                 alt="not found"
