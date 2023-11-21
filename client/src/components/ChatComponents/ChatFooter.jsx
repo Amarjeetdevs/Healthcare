@@ -1,12 +1,7 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
-
-const ChatFooter = ({ socket }) => {
-  const [message, setMessage] = useState("");
- 
- 
-  const handleTyping = () =>
-    socket.emit('typing', `${localStorage.getItem('userName')} is typing`);
+const ChatFooter = ({ socket } ) => {
+  const [message, setMessage] = useState('');
 
   const handleSendMessage = (e) => {
     e.preventDefault();
@@ -21,9 +16,8 @@ const ChatFooter = ({ socket }) => {
     setMessage('');
   };
 
-
-
-
+  const handleTyping = () =>
+  socket.emit('typing', `${localStorage.getItem('userName')} is typing`);
 
   return (
     <div className="chat__footer">

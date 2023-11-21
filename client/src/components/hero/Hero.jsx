@@ -69,7 +69,7 @@ function Hero() {
 
   return (
     <div >
-      <header className="bg-white">
+     <header className="bg-white shadow-md relative border-b-4 border-white ">
         <nav
           className="mx-auto flex max-w-7xl p items-center justify-between p-6 lg:px-8"
           aria-label="Global"
@@ -180,10 +180,10 @@ function Hero() {
             </a>
           </Popover.Group>
           <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-      <Link to="/login" className="text-sm font-semibold leading-6 text-gray-900">
-        Log in <span aria-hidden="true">&rarr;</span>
-      </Link>
-    </div>
+            <Link to="/login" className="text-sm font-semibold leading-6 text-gray-900">
+              Log in <span aria-hidden="true">&rarr;</span>
+            </Link>
+          </div>
         </nav>
         <Dialog
           as="div"
@@ -262,9 +262,9 @@ function Hero() {
                   </a>
                 </div>
                 <div className="py-6">
-                <Link to="/department" className="text-sm font-semibold leading-6 text-gray-900">
-        Log in <span aria-hidden="true">&rarr;</span>
-      </Link>
+                  <Link to="/department" className="text-sm font-semibold leading-6 text-gray-900">
+                    Log in <span aria-hidden="true">&rarr;</span>
+                  </Link>
                 </div>
               </div>
             </div>

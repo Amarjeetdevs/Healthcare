@@ -10,7 +10,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     <SocketProvider>
       <ThemeProvider>
         <MaterialTailwindControllerProvider>
-          <App />
+          <App/>
         </MaterialTailwindControllerProvider>
       </ThemeProvider>
     </SocketProvider>

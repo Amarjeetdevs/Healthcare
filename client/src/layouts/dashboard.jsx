@@ -24,7 +24,12 @@ export function Dashboard() {
       />
       <div className="p-4 xl:ml-80">
         <DashboardNavbar />
+     
         <Configurator />
+     
+     
+     
+     
         <IconButton
           size="lg"
           color="white"
@@ -34,6 +39,10 @@ export function Dashboard() {
         >
           <Cog6ToothIcon className="h-5 w-5" />
         </IconButton>
+        
+     
+     
+     
         <Routes>
           {routes.map(
             ({ layout, pages }) =>

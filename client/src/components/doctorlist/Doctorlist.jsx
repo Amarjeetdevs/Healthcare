@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState ,useEffect} from 'react';
 import DoctorPopup from '../doctordetails/DoctorDetails';
-
-
+import  Lottie  from 'react-lottie';
+import animationData from '../../loading-spinner/lottie-spinner.json'
 const people = [
     {
       name: 'Leslie Alexander',
@@ -60,6 +60,8 @@ const people = [
 
 export default function DoctorList() {
   const [selectedDoctor, setSelectedDoctor] = useState(null);
+  const [loading, setLoading] = useState(true);
+
 
   const openPopup = (people) => {
     setSelectedDoctor(people);
@@ -69,9 +71,39 @@ export default function DoctorList() {
     setSelectedDoctor(null);
   };
 
+
+  useEffect(() => {
+    // Simulating an asynchronous data fetch (you should replace this with your actual data fetching logic)
+    const fetchData = async () => {
+      // Simulating an API call delay
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+      setLoading(false);
+    };
+
+    fetchData();
+  }, []); // Empty dependency array ensures the effect runs once after the initial render
+
+
   return (
-    <div>
-      <ul role="list" className="divide-y divide-gray-100 p-52">
+    <div> 
+
+      {loading ? 
+      
+      ( <Lottie
+        options={{
+          loop: true,
+          autoplay: true,
+          animationData: animationData,
+        }}
+        
+        height={400}
+        width={400}
+      />
+      )
+      
+      
+      
+      : (   <ul role="list" className="divide-y divide-gray-100 p-40">
         {people.map((person) => (
           <li key={person.email} className="flex justify-between gap-x-6 py-6">
             <div className="flex min-w-0 gap-x-4 cursor-pointer" onClick={() => openPopup(person)}>
@@ -99,7 +131,7 @@ export default function DoctorList() {
           </li>
         ))}
       </ul>
-
+) } 
       {selectedDoctor && (
         <DoctorPopup people={selectedDoctor} onClose={closePopup} />
       )}

@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const ChatBody = ({ messages }) => {
+const ChatBody = ({ socket, lastMessageRef,typingStatus }) => {
+  const [messages, setMessages] = useState([]);
   const navigate = useNavigate();
 
   const handleLeaveChat = () => {
@@ -9,6 +10,17 @@ const ChatBody = ({ messages }) => {
     navigate('/');
     window.location.reload();
   };
+
+  useEffect(() => {
+    const handleReceiveMessage = (data) => setMessages((prevMessages) => [...prevMessages, data]);
+
+    socket.on('messageResponse', handleReceiveMessage);
+
+    // Cleanup the socket subscription when the component unmounts
+    return () => {
+      socket.off('messageResponse', handleReceiveMessage);
+    };
+  }, [socket]);
 
   return (
     <>
@@ -20,30 +32,31 @@ const ChatBody = ({ messages }) => {
       </header>
 
       <div className="message__container">
-        {messages.map((message) =>
-          message.name === localStorage.getItem('userName') ? (
-            <div className="message__chats" key={message.id}>
-              <p className="sender__name">You</p>
-              <div className="message__sender">
-                <p>{message.text}</p>
-              </div>
-            </div>
-          ) : (
-            <div className="message__chats" key={message.id}>
-              <p>{message.name}</p>
-              <div className="message__recipient">
-                <p>{message.text}</p>
-              </div>
-            </div>
-          )
-        )}
+        {messages.map((message) => (
+          <div className="message__chats" key={message.id}>
+            {message.name === localStorage.getItem('userName') ? (
+              <>
+                <p className="sender__name">You</p>
+                <div className="message__sender">
+                  <p>{message.text}</p>
+                </div>
+              </>
+            ) : (
+              <>
+                <p>{message.name}</p>
+                <div className="message__recipient">
+                  <p>{lastMessageRef}</p>
+                </div>
+              </>
+            )}
+          </div>
+        ))}
 
         <div className="message__status">
-          <p>Someone is typing...</p>
+        <p>{typingStatus}</p>
         </div>
-        {/* <div ref={lastMessageRef} /> */}
+
       </div>
-      
     </>
   );
 };

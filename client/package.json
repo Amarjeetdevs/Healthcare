@@ -19,16 +19,17 @@
     "@nomiclabs/hardhat-waffle": "^2.0.6",
     "@tailwindcss/aspect-ratio": "^0.4.2",
     "@tailwindcss/forms": "^0.5.6",
+    "apexcharts": "3.44.0",
     "chai": "^4.2.0",
     "ethers": "^6.8.1",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-player": "^2.12.0",
-    "socket.io-client": "^4.6.1",
-    "apexcharts": "3.44.0",
     "react-apexcharts": "1.4.1",
-    "react-router-dom": "6.17.0"
+    "react-dom": "^18.2.0",
+    "react-lottie": "^1.2.3",
+    "react-player": "^2.12.0",
+    "react-router-dom": "6.17.0",
+    "socket.io-client": "^4.6.1"
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox": "^3.0.0",
@@ -44,11 +45,11 @@
     "eslint-plugin-react-refresh": "^0.4.3",
     "hardhat": "^2.11.1",
     "postcss": "^8.4.31",
+    "prettier": "3.0.3",
+    "prettier-plugin-tailwindcss": "0.5.6",
     "react-modal": "3.16.1",
     "react-router-dom": "^6.17.0",
     "tailwindcss": "^3.3.4",
-    "vite": "^4.5.0",
-    "prettier": "3.0.3",
-    "prettier-plugin-tailwindcss": "0.5.6"
+    "vite": "^4.5.0"
   }
 }
