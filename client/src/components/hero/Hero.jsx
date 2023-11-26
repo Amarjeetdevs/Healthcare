@@ -167,20 +167,20 @@ function Hero() {
               Features
             </a>
             <a
-              href="#"
+              href="/lobby"
               className="text-sm font-semibold leading-6 text-gray-900"
             >
-              Marketplace
+              Vediocall
             </a>
             <a
-              href="#"
+              href="/newchat"
               className="text-sm font-semibold leading-6 text-gray-900"
             >
-              Company
+              ChatApp
             </a>
           </Popover.Group>
           <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-            <Link to="/login" className="text-sm font-semibold leading-6 text-gray-900">
+            <Link to="/auth/sign-up" className="text-sm font-semibold leading-6 text-gray-900">
               Log in <span aria-hidden="true">&rarr;</span>
             </Link>
           </div>

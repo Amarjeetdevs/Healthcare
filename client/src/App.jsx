@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Routes,Navigate ,Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Navigate, Route } from "react-router-dom";
 import Landing from "./Pages/Landing";
 import DepartmentList from "./Pages/DepartmentList";
 import LoginUser from "./components/registration/Registration";
@@ -10,8 +10,10 @@ import LobbyScreen from "./screen/LobyScreen";
 import RoomPage from "./screen/Room";
 import Home from "./components/ChatComponents/Home";
 import ChatPage from "./components/ChatComponents/ChatPage";
-import { io } from "socket.io-client";  // Import io, not Socket
-import { Dashboard,Auth } from "./layouts";
+import { io } from "socket.io-client"; 
+import { Dashboard, Auth } from "./layouts";
+import Chat from "./chat_pages/Chat";
+import SetAvatar from "./chat_components/SetAvatar";
 
 const url = "http://localhost:4000";
 const socket = io(url);  // Use io, not Socket.connect
@@ -22,7 +24,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/department" element={<DepartmentList />} />
-        <Route path="/login" element={<LoginUser />} />
+        {/* <Route path="/login" element={<LoginUser />} /> */}
         <Route path="/doctorlist" element={<DoctorList />} />
         <Route path="/appointmentForm" element={<AppointmentForm />} />
         <Route path="/lobby" element={<LobbyScreen />} />
@@ -30,13 +32,15 @@ export default function App() {
         <Route path="/chathome" element={<Home />} />
         <Route path="/chat" element={<ChatPage socket={socket} />}></Route>
         <Route path="*" element={<PageNotFound />} />
-     
 
+       <Route path="/newchat"  element={ <Chat/> } />
+       <Route path="/setAvatar"  element={ <SetAvatar/> } />
+       {/* <Route path="/setAvatar" element={<SetAvatar />} /> */}
         <Route path="/dashboard/*" element={<Dashboard />} />
-      <Route path="/auth/*" element={<Auth />} />
-      <Route path="*" element={<Navigate to="/dashboard/home" replace />} />
+        <Route path="/auth/*" element={<Auth />} />
+        <Route path="*" element={<Navigate to="/dashboard/home" replace />} />
 
-    
+
       </Routes>
     </Router>
   );

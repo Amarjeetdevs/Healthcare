@@ -1,14 +1,86 @@
+
+import  React ,{ useState,useEffect } from "react";
 import {
-  Card,
   Input,
   Checkbox,
   Button,
   Typography,
 } from "@material-tailwind/react";
-import { Link } from "react-router-dom";
-
+import { Link,useNavigate } from "react-router-dom";
+import axios from "axios";
+import { ToastContainer,toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { loginRoute } from "../../chat_utils/APIRoutes";
+import process from "process";
 
 export function SignIn() {
+
+const navigate = useNavigate();
+
+const [ values,setValues ] = useState({
+  usrename : "", passowrd : ""
+});
+
+const toastOptions = {
+  position: "bottom-right",
+  autoClose: 8000,
+  pauseOnHover: true,
+  draggable: true,
+  theme: "dark",
+};
+
+
+useEffect(() => {
+  if (localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)) {
+    navigate("/");
+  }
+}, []);
+
+
+const handleChange = (event) => {
+  setValues({ ...values, [event.target.name]: event.target.value });
+};
+
+const validateForm = () => {
+  const { username, password } = values;
+  if (username === "") {
+    toast.error("Email and Password is required.", toastOptions);
+    return false;
+  } else if (password === "") {
+    toast.error("Email and Password is required.", toastOptions);
+    return false;
+  }
+  return true;
+};
+
+const handleSubmit = async (event) => {
+  event.preventDefault();
+  if (validateForm()) {
+    const { username, password } = values;
+    const { data } = await axios.post(loginRoute, {
+      username,
+      password,
+    });
+    if (data.status === false) {
+      toast.error(data.msg, toastOptions);
+    }
+    if (data.status === true) {
+      localStorage.setItem(
+        process.env.REACT_APP_LOCALHOST_KEY,
+        JSON.stringify(data.user)
+      );
+
+      navigate("/");
+    }
+  }
+};
+
+
+
+
+
+
+
   return (
     <section className="m-8 flex gap-4">
       <div className="w-full lg:w-3/5 mt-24">
@@ -16,30 +88,37 @@ export function SignIn() {
           <Typography variant="h2" className="font-bold mb-4">Sign In</Typography>
           <Typography variant="paragraph" color="blue-gray" className="text-lg font-normal">Enter your email and password to Sign In.</Typography>
         </div>
-        <form className="mt-8 mb-2 mx-auto w-80 max-w-screen-lg lg:w-1/2">
+        <form 
+    onSubmit={(event) => handleSubmit(event)} 
+        className="mt-8 mb-2 mx-auto w-80 max-w-screen-lg lg:w-1/2">
           <div className="mb-1 flex flex-col gap-6">
             <Typography variant="small" color="blue-gray" className="-mb-3 font-medium">
               Your email
             </Typography>
             <Input
               size="lg"
+              type="text"
+              name="username"
               placeholder="name@mail.com"
               className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
               labelProps={{
                 className: "before:content-none after:content-none",
               }}
+              onChange={(event) => handleChange(event)}
             />
             <Typography variant="small" color="blue-gray" className="-mb-3 font-medium">
               Password
             </Typography>
             <Input
               type="password"
+              name="password"
               size="lg"
               placeholder="********"
               className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
               labelProps={{
                 className: "before:content-none after:content-none",
               }}
+              onChange={(event) => handleChange(event)}
             />
           </div>
           <Checkbox
@@ -60,7 +139,9 @@ export function SignIn() {
             }
             containerProps={{ className: "-ml-2.5" }}
           />
-          <Button className="mt-6" fullWidth>
+          <Button className="mt-6" fullWidth 
+          type="submit"
+          >
             Sign In
           </Button>
 
@@ -119,8 +200,10 @@ export function SignIn() {
         />
       </div>
 
+      <ToastContainer />
     </section>
   );
 }
+
 
 export default SignIn;

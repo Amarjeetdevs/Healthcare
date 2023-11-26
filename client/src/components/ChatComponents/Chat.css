@@ -43,8 +43,9 @@
 }
 .chat__sidebar {
   height: 100%;
-  background-color: #f9f5eb;
+  background-color: rgb(255, 43, 114);
   flex: 0.2;
+  text-decoration: solid;
   padding: 20px;
   border-right: 1px solid #fdfdfd;
 }
@@ -62,7 +63,7 @@
 }
 .online__users > * {
   margin-bottom: 10px;
-  color: rgb(238, 102, 102);
+  color: rgb(209, 19, 19);
   font-style: italic;
 }
 .chat__mainHeader {
@@ -105,6 +106,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  
 }
 .message {
   width: 80%;
@@ -124,10 +126,10 @@
   cursor: pointer;
 }
 .sendBtn:hover {
-  background-color: rgb(129, 201, 129);
+  background-color: rgb(103, 209, 103);
 }
 .message__recipient {
-  background-color: #f5ccc2;
+  background-color: #fa9d86;
   width: 300px;
   padding: 10px;
   border-radius: 10px;

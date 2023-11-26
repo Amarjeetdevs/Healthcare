@@ -73,15 +73,15 @@ export default function DoctorList() {
 
 
   useEffect(() => {
-    // Simulating an asynchronous data fetch (you should replace this with your actual data fetching logic)
+    
     const fetchData = async () => {
-      // Simulating an API call delay
+      
       await new Promise((resolve) => setTimeout(resolve, 2000));
       setLoading(false);
     };
 
     fetchData();
-  }, []); // Empty dependency array ensures the effect runs once after the initial render
+  }, []); 
 
 
   return (
@@ -96,8 +96,8 @@ export default function DoctorList() {
           animationData: animationData,
         }}
         
-        height={400}
-        width={400}
+        height={560}
+        width={560}
       />
       )
       
