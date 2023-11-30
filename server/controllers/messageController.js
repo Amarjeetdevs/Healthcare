@@ -11,10 +11,13 @@ module.exports.getMessages = async (req, res, next) => {
     }).sort({ updatedAt: 1 });
 
     const projectedMessages = messages.map((msg) => {
+      //  console.log(timestamp)
       return {
         fromSelf: msg.sender.toString() === from,
         message: msg.message.text,
+        timestamp: msg.createdAt,
       };
+      
     });
     res.json(projectedMessages);
   } catch (ex) {

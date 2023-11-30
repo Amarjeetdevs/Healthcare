@@ -2,11 +2,10 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Logo from "../assets/logo.svg";
 import process from "process";
-import { useNavigate } from "react-router-dom";
 
 export default function Contacts({ contacts, changeChat }) {
 
-  const navigate = useNavigate;
+  
 
   const [currentUserName, setCurrentUserName] = useState(undefined);
   const [currentUserImage, setCurrentUserImage] = useState(undefined);
@@ -18,38 +17,31 @@ export default function Contacts({ contacts, changeChat }) {
         const data = await JSON.parse(
           localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
         );
-
-
-        // console.log(data);
          if(data!==null)
          {
           setCurrentUserName(data.username);
           setCurrentUserImage(data.avatarImage);
-          console.log(data)
+          // console.log(data)
          }
          else
          {
           alert('unable to fetch previous details');
-          // navigate('/auth/logins');
+          
          }
-
-      //  if(data.username = '')  {
-      //   navigate('/auth/login')
-      //  }
       } catch (error) {
-        // Handle errors, e.g., parsing JSON or other unexpected issues
         console.error("Error fetching data:", error);
       }
     };
   
     fetchData();
-  
   }, [setCurrentUserName, setCurrentUserImage]);
   
   const changeCurrentChat = (index, contact) => {
     setCurrentSelected(index);
     changeChat(contact);
+    console.log(`message reciver is:` ,contact._id)
   };
+  
   return (
     <>
       {currentUserImage && currentUserImage && (

@@ -96,8 +96,8 @@ export default function DoctorList() {
           animationData: animationData,
         }}
         
-        height={560}
-        width={560}
+        height={400}
+        width={400}
       />
       )
       

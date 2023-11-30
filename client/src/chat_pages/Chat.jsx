@@ -8,6 +8,7 @@ import ChatContainer from "../chat_components/ChatContainer";
 import Contacts from "../chat_components/Contacts";
 import Welcome from "../chat_components/Welcome";
 import process from "process";
+import Hero from "../components/hero/Hero";
 export default function Chat() {
   const navigate = useNavigate();
   const socket = useRef();
@@ -45,6 +46,9 @@ export default function Chat() {
         try {
           socket.current = io(host);
           await socket.current.emit("add-user", currentUser._id);
+          console.log(currentUser._id,currentUser.username)
+          
+          
         } catch (error) {
           // Handle errors, e.g., issues with socket connection
           console.error("Error setting up socket:", error);
@@ -92,8 +96,11 @@ export default function Chat() {
   const handleChatChange = (chat) => {
     setCurrentChat(chat);
   };
+
+  
   return (
     <>
+     {<Hero/> }
       <Container>
         <div className="container">
           <Contacts contacts={contacts} changeChat={handleChatChange} />
@@ -114,13 +121,13 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 1rem;
+  gap: .1rem;
   align-items: center;
-  background-color: #131324;
+  background-color: #cfe7fc;
   .container {
     height: 85vh;
     width: 85vw;
-    background-color: #00000076;
+    background-color: #ffffff ;
     display: grid;
     grid-template-columns: 25% 75%;
     @media screen and (min-width: 720px) and (max-width: 1080px) {

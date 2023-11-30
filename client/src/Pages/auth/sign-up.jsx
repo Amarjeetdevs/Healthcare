@@ -34,7 +34,11 @@ export function SignUp() {
 
   useEffect(() => {
     if (localStorage.getItem(process.env.VITE_APP_LOCALHOST_KEY)) {
-      navigate("/newchat");
+      navigate("/");
+    }
+    else
+    {
+      navigate("/auth/sign-in")
     }
   }, []);
 

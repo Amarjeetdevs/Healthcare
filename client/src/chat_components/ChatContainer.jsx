@@ -6,6 +6,7 @@ import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
 import process from "process";
 import { sendMessageRoute, recieveMessageRoute } from "../chat_utils/APIRoutes";
+import Vedio from "./Vedio";
 
 export default function ChatContainer({ currentChat, socket }) {
   const [messages, setMessages] = useState([]);
@@ -16,7 +17,7 @@ export default function ChatContainer({ currentChat, socket }) {
     const fetchData = async () => {
       try {
         const data = JSON.parse(localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY));
-        
+
         if (data && currentChat) {
           const response = await axios.post(recieveMessageRoute, {
             from: data._id,
@@ -38,13 +39,13 @@ export default function ChatContainer({ currentChat, socket }) {
       if (currentChat) {
         try {
           const storedData = localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY);
-          
+
           if (storedData) {
             const parsedData = JSON.parse(storedData);
             const currentChatId = parsedData._id;
-            
+
             // Now you have the currentChatId, you can use it as needed.
-            console.log(currentChatId);
+            console.log('sender:',currentChatId);
           } else {
             console.warn('No data found in local storage for the specified key.');
           }
@@ -115,6 +116,8 @@ export default function ChatContainer({ currentChat, socket }) {
     scrollIntoViewSmooth();
   }, [messages, scrollRef]);
 
+  const currentDate = new Date();
+  const currentTime = currentDate.toLocaleTimeString();
 
   return (
     <Container>
@@ -130,6 +133,7 @@ export default function ChatContainer({ currentChat, socket }) {
             <h3>{currentChat.username}</h3>
           </div>
         </div>
+        <Vedio className="flex-end"/>
         <Logout />
       </div>
       <div className="chat-messages">
@@ -137,14 +141,18 @@ export default function ChatContainer({ currentChat, socket }) {
           return (
             <div ref={scrollRef} key={uuidv4()}>
               <div
-                className={`message ${
-                  message.fromSelf ? "sended" : "recieved"
-                }`}
+                className={`message ${message.fromSelf ? "sended" : "recieved"
+                  }`}
               >
                 <div className="content ">
                   <p>{message.message}</p>
+
                 </div>
+
               </div>
+              <div className="text-s text-blue-200 mr-20 text-end">
+       {message.timestamps}
+    </div>
             </div>
           );
         })}
@@ -189,7 +197,7 @@ const Container = styled.div`
     flex-direction: column;
     gap: 1rem;
     overflow: auto;
-    &::-webkit-scrollbar {
+    &::-webkit-scrollbar { 
       width: 0.2rem;
       &-thumb {
         background-color: #ffffff39;
@@ -201,12 +209,12 @@ const Container = styled.div`
       display: flex;
       align-items: center;
       .content {
-        max-width: 40%;
+        max-width: 5  0%;
         overflow-wrap: break-word;
-        padding: 1rem;
+        padding: .5rem;
         font-size: 1.1rem;
         border-radius: 1rem;
-        color: #d1d1d1;
+        color: #ffffff;
         @media screen and (min-width: 720px) and (max-width: 1080px) {
           max-width: 70%;
         }
@@ -215,13 +223,13 @@ const Container = styled.div`
     .sended {
       justify-content: flex-end;
       .content {
-        background-color: #4f04ff21;
+        background-color: #061840;
       }
     }
     .recieved {
       justify-content: flex-start;
       .content {
-        background-color: #9900ff20;
+        background-color: #063f8a;
       }
     }
   }

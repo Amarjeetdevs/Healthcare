@@ -1,12 +1,12 @@
-import { Fragment, useState } from "react";
+import { Fragment, useState,useEffect } from "react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import process from "process";
 import { Link } from 'react-router-dom';
 import {
   Dialog,
   Disclosure,
   Popover,
-  Transition,
-
+  Transition
 } from "@headlessui/react";
 import {
   ArrowPathIcon,
@@ -32,7 +32,7 @@ const products = [
   {
     name: "Analytics",
     description: "Get a better understanding of your traffic",
-    href: "#",
+    href: "/dashboard",
     icon: ChartPieIcon,
   },
   {
@@ -66,7 +66,35 @@ const callsToAction = [
 ];
 function Hero() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [loggedin, setLoggedin] = useState('');
+  const [currentUserName,setCurrentUserName] = useState('');
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await JSON.parse(
+          localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
+          // localStorage.clear()
+        );
+      
+       if(data!==null)
+       {
+         setLoggedin(loggedin);
+         setCurrentUserName(data.username);
+        }    
+     
+      } catch (error) {
+        // Handle errors, e.g., parsing JSON or other unexpected issues
+        console.error("Error fetching data:", error);
+      }
+    };
+  
+    fetchData();
+  
+  }, []);
+  
 
+
+  
   return (
     <div >
      <header className="bg-white shadow-md relative border-b-4 border-white ">
@@ -75,7 +103,7 @@ function Hero() {
           aria-label="Global"
         >
           <div className="flex lg:flex-1">
-            <a href="#" className="-m-1.5 p-1.5">
+            <a href="/" className="-m-1.5 p-1.5">
               <span className="sr-only">Your Company</span>
               <img
                 className="h-8 w-auto"
@@ -84,6 +112,7 @@ function Hero() {
               />
             </a>
           </div>
+      
           <div className="flex lg:hidden">
             <button
               type="button"
@@ -161,28 +190,35 @@ function Hero() {
             </Popover>
 
             <a
-              href="#"
+              href="/doctor/"
               className="text-sm font-semibold leading-6 text-gray-900"
             >
-              Features
-            </a>
-            <a
-              href="/lobby"
-              className="text-sm font-semibold leading-6 text-gray-900"
-            >
-              Vediocall
+             DoctorPanel
             </a>
             <a
               href="/newchat"
               className="text-sm font-semibold leading-6 text-gray-900"
             >
-              ChatApp
+              Message
             </a>
           </Popover.Group>
           <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-            <Link to="/auth/sign-up" className="text-sm font-semibold leading-6 text-gray-900">
-              Log in <span aria-hidden="true">&rarr;</span>
-            </Link>
+          <div>
+      {loggedin ? (
+        // Render content when the user is logged in
+        <div>
+        
+          <Link to="/auth/sign-up" className="text-sm font-semibold leading-6 text-gray-900">
+          Log in <span aria-hidden="true">&rarr;</span>
+        </Link>
+        </div>
+      ) : (
+        // Render login link when the user is not logged in
+      <div>
+          Welcome back! { currentUserName }
+      </div>
+      )}
+    </div>
           </div>
         </nav>
         <Dialog

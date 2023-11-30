@@ -4,6 +4,7 @@ import { BiPowerOff } from "react-icons/bi";
 import styled from "styled-components";
 import axios from "axios";
 import { logoutRoute } from "../chat_utils/APIRoutes";
+import process from "process";
 export default function Logout() {
   const navigate = useNavigate();
   const handleClick = async () => {
@@ -12,8 +13,8 @@ export default function Logout() {
     )._id;
     const data = await axios.get(`${logoutRoute}/${id}`);
     if (data.status === 200) {
-      localStorage.clear();
-      navigate("/login");
+      // localStorage.clear();
+      navigate("/auth/sign-in");
     }
   };
   return (
@@ -29,7 +30,7 @@ const Button = styled.button`
   align-items: center;
   padding: 0.5rem;
   border-radius: 0.5rem;
-  background-color: #9a86f3;
+  background-color: red;
   border: none;
   cursor: pointer;
   svg {

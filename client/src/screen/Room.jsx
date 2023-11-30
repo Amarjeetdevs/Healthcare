@@ -2,16 +2,25 @@ import React, { useEffect, useCallback, useState } from "react";
 import ReactPlayer from "react-player";
 import peer from "../service/Peer";
 import { useSocket } from "../context/SocketProvider";
-
+import { useNavigate } from "react-router-dom";
 const RoomPage = () => {
   const socket = useSocket();
+  const navigate = useNavigate();
+
   const [remoteSocketId, setRemoteSocketId] = useState(null);
   const [myStream, setMyStream] = useState();
   const [remoteStream, setRemoteStream] = useState();
+  const [person, setPerson] = useState('')
+  const [Incoming, setIncomming] = useState('');
+  const [color, setColor] = useState('');
+
+  var green = 'bg-green-500'
 
   const handleUserJoined = useCallback(({ email, id }) => {
     console.log(`Email ${email} joined room`);
+    setPerson(email);
     setRemoteSocketId(id);
+    setColor(green);
   }, []);
 
   const handleCallUser = useCallback(async () => {
@@ -35,6 +44,7 @@ const RoomPage = () => {
       console.log(`Incoming Call`, from, offer);
       const ans = await peer.getAnswer(offer);
       socket.emit("call:accepted", { to: from, ans });
+      setIncomming(from, offer)
     },
     [socket]
   );
@@ -74,6 +84,7 @@ const RoomPage = () => {
     [socket]
   );
 
+
   const handleNegoNeedFinal = useCallback(async ({ ans }) => {
     await peer.setLocalDescription(ans);
   }, []);
@@ -109,58 +120,79 @@ const RoomPage = () => {
     handleNegoNeedFinal,
   ]);
 
+  let backToChat = () => {
+    navigate('/newchat')
+    window.location.reload();
+  }
+
   return (
-    <div className="container mx-auto mt-8 p-8 flex flex-col items-center">
-      <h1 className="text-4xl font-bold mb-4">Room Page</h1>
+    <div
+    style={{ backgroundColor: '#cfeafd' }} 
+    className="container mx-auto pt-8 p-4 flex flex-col items-center">
+        <h3 className="text-sm">
+          <span className={`h-4 w-2 rounded-full ${color} mr-2 pr-6`}></span>
+        </h3>
+
+    <h5>{Incoming}</h5>
       <h4 className="text-xl mb-4">
-        {remoteSocketId ? "Connected" : "No one in room"}
+        {remoteSocketId ? `connected with ${person}` : "No one in room"}
       </h4>
 
-      {myStream && (
-        <button
-          className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-full mb-4 md:mb-8"
-          onClick={sendStreams}
-        >
-          Send Stream
-        </button>
-      )}
+      <div className="flex justify-center space-x-4 mt-4">
+        {myStream && (
+          <button
+            className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-full"
+            onClick={sendStreams}
+          >
+            Send Stream
+          </button>
+        )}
 
-      {remoteSocketId && (
+        {remoteSocketId && (
+          <button
+            className="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-full"
+            onClick={handleCallUser}
+          >
+            CALL
+          </button>
+        )}
+
         <button
-          className="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-full mb-4 md:mb-8"
-          onClick={handleCallUser}
+          className="bg-red-600 hover:bg-blue-700 text-white px-6 py-3 rounded-full"
+          onClick={backToChat}
         >
-          CALL
+          Back to chat
         </button>
-      )}
+      </div>
 
       <div className="flex mt-8">
-        {myStream && (
-          <div className="mr-4">
-            <h1 className="text-xl font-bold mb-2">My Stream</h1>
-            <ReactPlayer
-              playing
-              muted
-              height="200px"
-              width="400px"
-              url={myStream}
-            />
-          </div>
-        )}
+  {remoteStream && (
+    <div>
+      <h1 className="text-xl font-bold mb-2">Remote Stream</h1>
+      <ReactPlayer
+        playing
+        muted
+        height="600px"
+        width="1000px"
+        url={remoteStream}
+      />
+    </div>
+  )}
 
-        {remoteStream && (
-          <div>
-            <h1 className="text-xl font-bold mb-2">Remote Stream</h1>
-            <ReactPlayer
-              playing
-              muted
-              height="300px"
-              width="600px"
-              url={remoteStream}
-            />
-          </div>
-        )}
-      </div>
+  {myStream && (
+    <div className="ml-auto">
+      <h1 className="text-xl font-bold mb-2">My Stream</h1>
+      <ReactPlayer
+        playing
+        muted
+        height="200px"
+        width="400px"
+        url={myStream}
+      />
+    </div>
+  )}
+</div>
+
     </div>
   );
 };
