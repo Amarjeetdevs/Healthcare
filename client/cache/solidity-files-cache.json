@@ -1,0 +1,145 @@
+{
+  "_format": "hh-sol-cache-2",
+  "files": {
+    "E:\\Healthcare\\client\\contracts\\PersonDataStorage.sol": {
+      "lastModificationDate": 1710220271471,
+      "contentHash": "710911e07b2c126ddf826ed37c8232b9",
+      "sourceName": "contracts/PersonDataStorage.sol",
+      "solcConfig": {
+        "version": "0.8.9",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.9"
+      ],
+      "artifacts": [
+        "PersonalDataStorage"
+      ]
+    },
+    "E:\\Healthcare\\client\\contracts\\MedicalRecord.sol": {
+      "lastModificationDate": 1710243640130,
+      "contentHash": "e6a2964d872c7399bbfc0b158208bf58",
+      "sourceName": "contracts/MedicalRecord.sol",
+      "solcConfig": {
+        "version": "0.8.9",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.9"
+      ],
+      "artifacts": [
+        "MedicalRecords"
+      ]
+    },
+    "C:\\Users\\amarj\\Desktop\\Healthcare\\Healthcare\\Healthcare\\client\\contracts\\MedicalRecord.sol": {
+      "lastModificationDate": 1713812095022,
+      "contentHash": "e6a2964d872c7399bbfc0b158208bf58",
+      "sourceName": "contracts/MedicalRecord.sol",
+      "solcConfig": {
+        "version": "0.8.9",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.9"
+      ],
+      "artifacts": [
+        "MedicalRecords"
+      ]
+    },
+    "C:\\Users\\amarj\\Desktop\\Healthcare\\Healthcare\\Healthcare\\client\\contracts\\PersonDataStorage.sol": {
+      "lastModificationDate": 1713812095022,
+      "contentHash": "710911e07b2c126ddf826ed37c8232b9",
+      "sourceName": "contracts/PersonDataStorage.sol",
+      "solcConfig": {
+        "version": "0.8.9",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.9"
+      ],
+      "artifacts": [
+        "PersonalDataStorage"
+      ]
+    }
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon server.js",
+    "newchat": "nodemon chat_index.js"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.0",
+    "express": "^4.18.2",
+    "faker": "^6.6.6",
+    "mongoose": "^6.2.1",
+    "multer": "^1.4.5-lts.1",
+    "multer-gridfs-storage": "^5.0.2",
+    "nodemailer": "^6.9.13",
+    "nodemon": "^2.0.15",
+    "razorpay": "^2.9.3",
+    "resend": "^3.2.0",
+    "sib-api-v3-sdk": "^8.5.0",
+    "socket.io": "^4.6.1",
+    "stripe": "13.5.0",
+    "uuid": "^9.0.1"
+  }
+}
