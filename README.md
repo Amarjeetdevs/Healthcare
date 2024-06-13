@@ -19,7 +19,11 @@ This project is a blockchain-based web application designed for healthcare, feat
 5. **Email Notifications**: Send automated email notifications using Nodemailer for appointment reminders and updates.
 
 6. **Blockchain Data Storage**: Utilize blockchain technology to securely store patient data, ensuring immutability and transparency.
-
+![Image](https://github.com/Amarjeetdevs/Healthcare/blob/d55887dd7e506da88ba38c7eaa3ec348ff9f3a74/client/src/assets/ss1.jpeg)
+![Image](https://github.com/Amarjeetdevs/Healthcare/blob/d55887dd7e506da88ba38c7eaa3ec348ff9f3a74/client/src/assets/ss2.jpeg)
+![Image](https://github.com/Amarjeetdevs/Healthcare/blob/d55887dd7e506da88ba38c7eaa3ec348ff9f3a74/client/src/assets/ss3.jpeg)
+![Image](https://github.com/Amarjeetdevs/Healthcare/blob/d55887dd7e506da88ba38c7eaa3ec348ff9f3a74/client/src/assets/ss4.jpeg)
+![Image](https://github.com/Amarjeetdevs/Healthcare/blob/d55887dd7e506da88ba38c7eaa3ec348ff9f3a74/client/src/assets/ss5.jpeg)
 ## Running the Project
 
 ### Server
