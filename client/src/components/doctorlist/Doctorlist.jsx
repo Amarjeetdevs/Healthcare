@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import DoctorPopup from '../doctordetails/DoctorDetails';
-import Lottie from 'react-lottie';
 import axios from 'axios';
 import { getAllDoctorRoutes } from '../../chat_utils/APIRoutes';
 import Hero from '../hero/Hero';

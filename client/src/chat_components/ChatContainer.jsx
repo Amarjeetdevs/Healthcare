@@ -30,7 +30,6 @@ export default function ChatContainer({ currentChat, socket }) {
             from: data._id,
             to: currentChat._id,
           });
-
           setMessages(response.data);
           setLoading(false);
         }
@@ -50,8 +49,6 @@ export default function ChatContainer({ currentChat, socket }) {
           if (storedData) {
             const parsedData = JSON.parse(storedData);
             const currentChatId = parsedData._id;
-
-           
             console.log('sender:', currentChatId);
           } else {
             console.warn('No data found in local storage for the specified key.');
@@ -66,9 +63,7 @@ export default function ChatContainer({ currentChat, socket }) {
   }, [currentChat]);
 
   const handleSendMsg = async (msg) => {
-  
-
-    const data = await JSON.parse(
+      const data = await JSON.parse(
       localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
     );
   

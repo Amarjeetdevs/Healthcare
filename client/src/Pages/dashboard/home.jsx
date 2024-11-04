@@ -67,7 +67,7 @@ export function Home() {
       </div>
       <div className="mb-4 grid grid-cols-1 gap-6 xl:grid-cols-3">
         <Card className="overflow-hidden xl:col-span-2 border border-blue-gray-100 shadow-sm">
-          <CardHeader
+          {/* <CardHeader
             floated={false}
             shadow={false}
             color="transparent"
@@ -101,8 +101,8 @@ export function Home() {
                 <MenuItem>Something else here</MenuItem>
               </MenuList>
             </Menu>
-          </CardHeader>
-          <CardBody className="overflow-x-scroll px-0 pt-0 pb-2">
+          </CardHeader> */}
+          {/* <CardBody className="overflow-x-scroll px-0 pt-0 pb-2">
             <table className="w-full min-w-[640px] table-auto">
               <thead>
                 <tr>
@@ -191,10 +191,10 @@ export function Home() {
                 )}
               </tbody>
             </table>
-          </CardBody>
+          </CardBody> */}
         </Card>
         <Card className="border border-blue-gray-100 shadow-sm">
-          <CardHeader
+          {/* <CardHeader
             floated={false}
             shadow={false}
             color="transparent"
@@ -213,8 +213,8 @@ export function Home() {
               />
               <strong>24%</strong> this month
             </Typography>
-          </CardHeader>
-          <CardBody className="pt-0">
+          </CardHeader> */}
+          {/* <CardBody className="pt-0">
             {ordersOverviewData.map(
               ({ icon, color, title, description }, key) => (
                 <div key={title} className="flex items-start gap-4 py-3">
@@ -248,7 +248,7 @@ export function Home() {
                 </div>
               )
             )}
-          </CardBody>
+          </CardBody> */}
         </Card>
       </div>
     </div>

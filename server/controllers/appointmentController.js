@@ -84,7 +84,6 @@ const bookAppointment = async (req, res, next) => {
        console.log('data before saving',appointment)
         // Save the appointment to the database
         const savedAppointment = await appointment.save();
-
         // Send email
         await sendMail(req, res, doctorName, appointmentDate, appointmentTime, email, paymentId, orderId, signature);
 
